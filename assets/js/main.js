@@ -72,4 +72,24 @@
     });
     update();
   });
+  // Fade-ins
+  var targets = document.querySelectorAll('.hero h1, .hero .pill, .hero-foot, .hero p.soft, .hero .tags, .viewer, .feature figcaption, .section .eyebrow, .h2, .step, .checks, .stats > div, .price, .start, .faq-list, .member, .thumbs, .footer h2, .footer .btn');
+  var groups = new Map();
+  targets.forEach(function (el) {
+    el.classList.add('reveal');
+    // Stagger cards that sit side by side
+    if (el.matches('.step, .stats > div, .price, .member')) {
+      var n = groups.get(el.parentNode) || 0;
+      el.style.setProperty('--d', (n % 4) * 90 + 'ms');
+      groups.set(el.parentNode, n + 1);
+    }
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    targets.forEach(function (el) { io.observe(el); });
+  } else {
+    targets.forEach(function (el) { el.classList.add('in'); });
+  }
 })();
