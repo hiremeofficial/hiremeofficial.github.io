@@ -59,6 +59,13 @@
     next.addEventListener('click', function () { go(current + 1); });
     thumbs.forEach(function (t, i) { t.addEventListener('click', function () { go(i); viewer.scrollIntoView({ behavior: 'smooth', block: 'center' }); }); });
     track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
+    // Keep the current page lined up if the window is resized
+    window.addEventListener('resize', function () {
+      var keep = current;
+      track.style.scrollBehavior = 'auto';
+      track.scrollLeft = keep * (track.clientWidth + 16);
+      track.style.scrollBehavior = '';
+    });
     if (vi === 0) document.addEventListener('keydown', function (e) {
       if (e.target.closest && e.target.closest('input, textarea')) return;
       if (e.key === 'ArrowLeft') go(current - 1);
