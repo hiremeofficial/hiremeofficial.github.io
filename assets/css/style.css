@@ -202,7 +202,8 @@ a:hover { opacity: 0.75; }
 
 /* Phones: tighter spacing so the page scrolls less */
 @media (max-width: 760px) {
-  .hero .pill { margin-top: 36px; }
+  .hero .pill { margin-top: 48px; }
+  .hero-foot { margin-top: 28px; }
   .step { min-height: 0; padding: 24px; }
   .step .part { margin-top: 8px; }
   .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
