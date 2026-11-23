@@ -1,6 +1,6 @@
 // hire.me service worker: lets the app open fast and work offline.
 // Bump VERSION whenever the site changes so phones pick up the new files.
-var VERSION = 'hireme-v2';
+var VERSION = 'hireme-v3';
 var CORE = ['./', 'index.html', 'work.html', 'team.html', 'assets/css/style.css', 'assets/js/main.js', 'assets/img/hm-badge.png', 'assets/img/portfolio/p-01.jpg'];
 
 self.addEventListener('install', function (e) {
