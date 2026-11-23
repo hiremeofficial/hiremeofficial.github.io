@@ -2,24 +2,23 @@
 (function () {
   var root = document.documentElement;
 
-  // Theme toggle (initial theme is set by the inline script in <head>)
-  var toggle = document.querySelector('.theme-toggle');
+  // Theme toggles (one in the phone top bar, one in the laptop menu)
+  var toggles = document.querySelectorAll('.theme-toggle');
   function syncLabel() {
-    if (!toggle) return;
     var dark = root.getAttribute('data-theme') === 'dark';
-    toggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    toggles.forEach(function (t) { t.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode'); });
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', dark ? '#0F0E0D' : '#F4F2EE');
   }
-  if (toggle) {
-    syncLabel();
-    toggle.addEventListener('click', function () {
+  syncLabel();
+  toggles.forEach(function (t) {
+    t.addEventListener('click', function () {
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('hireme-theme', next); } catch (e) {}
       syncLabel();
     });
-  }
+  });
 
   // Mobile menu
   var menuBtn = document.querySelector('.menu-btn');

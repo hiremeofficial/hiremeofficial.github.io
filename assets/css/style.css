@@ -225,3 +225,7 @@ a:hover { opacity: 0.75; }
   .member .bio { font-size: 13px; }
   .footer .sticker { width: 96px; }
 }
+
+/* Theme toggle: in the top bar on phones, inside the menu row on laptops */
+@media (min-width: 761px) { .mobile-only { display: none !important; } }
+@media (max-width: 760px) { .desktop-only { display: none !important; } }
