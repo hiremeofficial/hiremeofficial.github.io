@@ -1,6 +1,6 @@
 // hire.me service worker: lets the app open fast and work offline.
 // Bump VERSION whenever the site changes so phones pick up the new files.
-var VERSION = 'hireme-v7';
+var VERSION = 'hireme-v8';
 var CORE = ['./', 'index.html', 'work.html', 'team.html', 'assets/img/hm-badge.png', 'assets/img/portfolio/p-01.jpg'];
 
 self.addEventListener('install', function (e) {
@@ -18,14 +18,14 @@ self.addEventListener('fetch', function (e) {
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
   if (req.mode === 'navigate') {
     // Pages: try the network first so updates show up, fall back to the saved copy offline.
-    e.respondWith(fetch(req).then(function (res) {
+    e.respondWith(fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }).then(function (res) {
       var copy = res.clone(); caches.open(VERSION).then(function (c) { c.put(req, copy); }); return res;
     }).catch(function () { return caches.match(req).then(function (r) { return r || caches.match('index.html'); }); }));
     return;
   }
   // Styles and scripts: network first so design changes always show up.
   if (/\.(css|js)$/.test(new URL(req.url).pathname)) {
-    e.respondWith(fetch(req).then(function (res) {
+    e.respondWith(fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }).then(function (res) {
       var copy = res.clone(); caches.open(VERSION).then(function (c) { c.put(req, copy); }); return res;
     }).catch(function () { return caches.match(req, { ignoreSearch: true }); }));
     return;

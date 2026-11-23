@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=7">
+<link rel="stylesheet" href="assets/css/style.css?v=8">
 <script data-goatcounter="https://hiremeofficial.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script>
 (function () {
@@ -104,7 +104,23 @@
 </footer>
 </div>
 </div>
-<script src="assets/js/main.js?v=7"></script>
-<script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js'); }); }</script>
+<script src="assets/js/main.js?v=8"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  // When a new version is published, swap it in and refresh once, including inside the home-screen app.
+  var hadController = !!navigator.serviceWorker.controller, refreshed = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    if (!hadController) { hadController = true; return; }  // first install: nothing to refresh
+    if (!refreshed) { refreshed = true; location.reload(); }
+  });
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (reg) {
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') reg.update();
+      });
+    });
+  });
+}
+</script>
 </body>
 </html>
