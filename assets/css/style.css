@@ -183,12 +183,19 @@ a:hover { opacity: 0.75; }
 .track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; scrollbar-width: none; border-radius: 6px; }
 .track::-webkit-scrollbar { display: none; }
 .track img { flex: 0 0 100%; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; scroll-snap-align: center; border-radius: 6px; background: var(--card); }
-.viewer-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 20px; }
-.counter { font-family: var(--serif); font-size: 24px; font-style: italic; }
-.arrows { display: flex; gap: 10px; }
-.arrow { width: 52px; height: 52px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-.arrow:disabled { opacity: 0.35; cursor: default; }
-.arrow svg { width: 18px; height: 18px; }
+.arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 52px; height: 52px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); background: rgba(15,14,13,0.6); color: #F2EFE9; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: opacity 0.2s, background 0.2s; }
+.arrow:hover { background: rgba(15,14,13,0.85); }
+.arrow.prev { left: 14px; }
+.arrow.next { right: 14px; }
+.arrow:disabled { opacity: 0; pointer-events: none; }
+.arrow svg { width: 20px; height: 20px; }
+.counter { position: absolute; left: 14px; bottom: 14px; z-index: 2; margin: 0; padding: 6px 14px; border-radius: 999px; background: rgba(15,14,13,0.6); color: #F2EFE9; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+@media (max-width: 760px) {
+  .arrow { width: 44px; height: 44px; }
+  .arrow.prev { left: 8px; }
+  .arrow.next { right: 8px; }
+  .counter { left: 8px; bottom: 8px; font-size: 12px; padding: 4px 10px; }
+}
 .thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 32px; }
 .thumbs button { padding: 0; border: 2px solid transparent; border-radius: 6px; background: none; cursor: pointer; overflow: hidden; }
 .thumbs button[aria-current="true"] { border-color: var(--accent); }

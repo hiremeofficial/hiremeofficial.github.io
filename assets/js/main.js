@@ -34,35 +34,36 @@
     });
   }
 
-  // Portfolio viewer
-  var track = document.querySelector('.track');
-  if (track) {
+  // Portfolio viewers (Home and Work pages)
+  var viewers = document.querySelectorAll('.viewer');
+  viewers.forEach(function (viewer, vi) {
+    var track = viewer.querySelector('.track');
     var slides = track.querySelectorAll('img');
-    var prev = document.querySelector('.arrow.prev');
-    var next = document.querySelector('.arrow.next');
-    var counter = document.querySelector('.counter');
-    var thumbs = document.querySelectorAll('.thumbs button');
+    var prev = viewer.querySelector('.arrow.prev');
+    var next = viewer.querySelector('.arrow.next');
+    var counter = viewer.querySelector('.counter');
+    var thumbs = document.querySelectorAll('.thumbs[data-for="' + viewer.id + '"] button');
     var current = 0;
     function go(i) {
       i = Math.max(0, Math.min(slides.length - 1, i));
-      track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+      track.scrollTo({ left: i * (track.clientWidth + 16), behavior: 'smooth' });
     }
     function update() {
-      var w = track.clientWidth + 16;
-      current = Math.round(track.scrollLeft / w);
-      counter.textContent = (current + 1) + ' / ' + slides.length;
+      current = Math.round(track.scrollLeft / (track.clientWidth + 16));
+      if (counter) counter.textContent = (current + 1) + ' / ' + slides.length;
       prev.disabled = current === 0;
       next.disabled = current === slides.length - 1;
       thumbs.forEach(function (t, i) { t.setAttribute('aria-current', i === current ? 'true' : 'false'); });
     }
     prev.addEventListener('click', function () { go(current - 1); });
     next.addEventListener('click', function () { go(current + 1); });
-    thumbs.forEach(function (t, i) { t.addEventListener('click', function () { go(i); track.scrollIntoView({ behavior: 'smooth', block: 'center' }); }); });
+    thumbs.forEach(function (t, i) { t.addEventListener('click', function () { go(i); viewer.scrollIntoView({ behavior: 'smooth', block: 'center' }); }); });
     track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
-    document.addEventListener('keydown', function (e) {
+    if (vi === 0) document.addEventListener('keydown', function (e) {
+      if (e.target.closest && e.target.closest('input, textarea')) return;
       if (e.key === 'ArrowLeft') go(current - 1);
       if (e.key === 'ArrowRight') go(current + 1);
     });
     update();
-  }
+  });
 })();
