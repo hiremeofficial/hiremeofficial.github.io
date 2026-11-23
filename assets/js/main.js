@@ -86,8 +86,9 @@
   });
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      // Fade in every time something comes into view, and reset once it has fully left the screen
+      entries.forEach(function (e) { e.target.classList.toggle('in', e.isIntersecting); });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
     targets.forEach(function (el) { io.observe(el); });
   } else {
     targets.forEach(function (el) { el.classList.add('in'); });
