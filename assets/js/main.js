@@ -53,6 +53,8 @@
       prev.disabled = current === 0;
       next.disabled = current === slides.length - 1;
       thumbs.forEach(function (t, i) { t.setAttribute('aria-current', i === current ? 'true' : 'false'); });
+      var strip = thumbs.length && thumbs[0].parentNode.classList.contains('strip') ? thumbs[0].parentNode : null;
+      if (strip && thumbs[current]) { var t = thumbs[current]; strip.scrollTo({ left: t.offsetLeft - strip.clientWidth / 2 + t.clientWidth / 2, behavior: 'smooth' }); }
     }
     prev.addEventListener('click', function () { go(current - 1); });
     next.addEventListener('click', function () { go(current + 1); });
