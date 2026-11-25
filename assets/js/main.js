@@ -80,7 +80,7 @@
     // Stagger cards that sit side by side
     if (el.matches('.step, .stats > div, .price, .member')) {
       var n = groups.get(el.parentNode) || 0;
-      el.style.setProperty('--d', (n % 4) * 90 + 'ms');
+      el.style.setProperty('--d', (n % 3) * 90 + 'ms');
       groups.set(el.parentNode, n + 1);
     }
   });
